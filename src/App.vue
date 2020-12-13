@@ -19,6 +19,7 @@ html,body{
   margin: 0;
   padding: 0;
   height: 100%;
+  min-width: 900px;
 }
 a:link{
   color: #409EFF;
@@ -31,5 +32,10 @@ a:hover{
 }
 a:active{
   color: #409EFF;
+}
+/* 服务于productDetail */
+.tag > .el-radio-button__inner{
+  border-radius: 0 !important;
+  border: 1px solid #DCDFE6;
 }
 </style>

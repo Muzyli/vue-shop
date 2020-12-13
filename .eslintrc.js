@@ -17,5 +17,6 @@ module.exports = {
   rules: {
     'consistent-return': 0,
     'no-lonely-if': 0,
+    'quote-props': 0,
   },
 };

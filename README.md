@@ -20,5 +20,5 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### note
+productDetail 缺少属性问题【已解决】

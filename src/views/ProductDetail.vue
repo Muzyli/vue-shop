@@ -5,12 +5,11 @@
       <!-- 放大镜效果---开始 -->
       <el-col :span="7" :offset="4">
         <div ref="box" @mouseover="handOver" @mousemove="handMove" @mouseout="handOut">
-          <el-image class="initial"
+          <img class="initial" :alt="product.name"
           :style="{
             'width': `${initialSize}px`,
             'height': `${initialSize}px`}"
-          :src="product.imgUrl"
-          fit="fill"></el-image>
+          :src="product.imgUrl" />
           <div v-show="bigger" class="box"
           :style="{
             'top':`${boxTop}px`,
@@ -30,7 +29,8 @@
           'right':`${boxLeft*times*showLargeSize/initialSize}px`,
           'bottom':`${boxTop*times*showLargeSize/initialSize}px`,
           'width': `${showLargeSize*times}px`,
-          'height': `${showLargeSize*times}px`
+          'height': `${showLargeSize*times}px`,
+          'z-index': '3',
         }"
          :src="product.imgUrl"/>
       </div>
@@ -112,12 +112,15 @@
   </div>
 </template>
 <script>
+import Service from '../axios/http';
+import domain from '../axios/api';
 import navigation from '../components/Navigation.vue';
 
 export default {
   components: {
     navigation,
   },
+  props: ['id'],
   data() {
     return {
       // 左边距
@@ -132,55 +135,10 @@ export default {
       showLargeSize: 450,
       // 倍率控制
       times: 2,
-      currentIndex: '1',
-      menu: {
-        activeColor: 'red',
-        fontColor: 'white',
-      },
+      // 初始化为0,防止异常
+      currentIndex: '0',
       chooseProperty: [],
-      product: {
-        productId: 1,
-        name: '一加OnePlus 8T',
-        preferential: ['包邮', '送贴膜', '三年保修'],
-        vipPrice: 999,
-        price: 9999,
-        imgUrl: 'https://img11.360buyimg.com/n1/s450x450_jfs/t1/122842/37/14936/69271/5f8801fdEa3a69e43/0bcb41d5a3661a8c.jpg',
-        property: [
-          {
-            title: '选择颜色',
-            tags: ['白色', '青色', '灰色'],
-          },
-          {
-            title: '选择版本',
-            tags: ['8+128G', '8+256G', '12+128G', '12+256G', '12+512G'],
-          },
-          {
-            title: '选择套餐',
-            tags: ['套餐一', '套餐二', '套餐三'],
-          },
-        ],
-        introduction: {
-          imgs: [
-            'https://img10.360buyimg.com/imgzone/jfs/t1/121030/7/17857/377113/5faa2beeE5f9d0d74/4c294740a366ecfc.jpg',
-            'https://img10.360buyimg.com/imgzone/jfs/t1/148751/24/13939/267507/5faa2beeE1c64ff5c/6f5169aa3664e116.jpg',
-            'https://img10.360buyimg.com/imgzone/jfs/t1/134899/28/15541/193785/5faa2bedE5e349973/3c85a096f61586c9.jpg',
-            'https://img10.360buyimg.com/imgzone/jfs/t1/149026/25/13870/347734/5faa2beeEc9a079f7/f07efb9dcc8f670f.jpg',
-            'https://img10.360buyimg.com/imgzone/jfs/t1/135987/2/15416/196634/5faa2beeE2731f602/ee64dbcdf97afd01.jpg',
-            'https://img10.360buyimg.com/imgzone/jfs/t1/137070/38/15414/141877/5faa2beeE9eceaf49/b6af96591c5bb2d5.jpg',
-            'https://img10.360buyimg.com/imgzone/jfs/t1/135957/5/18396/403309/5fc9a42aE67621879/b08da2b13a652ade.jpg',
-          ],
-          parameters: [
-            '商品名称：一加OnePlus 8T',
-            'CPU型号：骁龙865',
-            '摄像头数量：后置四摄',
-            '分辨率：其它分辨率',
-            '后摄主摄像素：4800万像素',
-            '前摄主摄像素：1600万像素',
-            '商品产地：中国大陆',
-            '充电器：10V/6.5A',
-          ],
-        },
-      },
+      product: {},
     };
   },
   methods: {
@@ -219,7 +177,16 @@ export default {
       this.currentIndex = index;
     },
   },
-  mounted() {
+  created() {
+    Service({
+      url: domain.product,
+      data: {
+        id: this.id,
+      },
+    }).then((res) => {
+      this.product = res.data.data;
+      this.currentIndex = '1';
+    });
   },
 };
 </script>
@@ -227,8 +194,7 @@ export default {
 .enlarge{
   overflow:hidden;
   position:absolute;
-  left:16.666667%;
-  z-index: 3;
+  left:16.66667%;
 }
 .box{
   background-color: lightblue;
@@ -240,6 +206,9 @@ export default {
 }
 .initial{
   border: 1px solid #ccc;
+  /* 抵消描边线的1px */
+  margin-left: -1px;
+  margin-top: -1px;
   float:left;
 }
 
@@ -255,5 +224,6 @@ export default {
 .interval{
   overflow: visible !important;
   margin-bottom: 40px;
+  z-index: 2;
 }
 </style>

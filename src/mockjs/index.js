@@ -1,6 +1,51 @@
 import Mock from 'mockjs';
 import domain from '../axios/api';
 
+const product = [
+  {
+    productId: 1,
+    name: '一加OnePlus 8T',
+    preferential: ['包邮', '送贴膜', '三年保修'],
+    vipPrice: 999,
+    price: 9999,
+    imgUrl: 'https://img11.360buyimg.com/n1/s450x450_jfs/t1/122842/37/14936/69271/5f8801fdEa3a69e43/0bcb41d5a3661a8c.jpg',
+    property: [
+      {
+        title: '选择颜色',
+        tags: ['白色', '青色', '灰色'],
+      },
+      {
+        title: '选择版本',
+        tags: ['8+128G', '8+256G', '12+128G', '12+256G', '12+512G'],
+      },
+      {
+        title: '选择套餐',
+        tags: ['套餐一', '套餐二', '套餐三'],
+      },
+    ],
+    introduction: {
+      imgs: [
+        'https://img10.360buyimg.com/imgzone/jfs/t1/121030/7/17857/377113/5faa2beeE5f9d0d74/4c294740a366ecfc.jpg',
+        'https://img10.360buyimg.com/imgzone/jfs/t1/148751/24/13939/267507/5faa2beeE1c64ff5c/6f5169aa3664e116.jpg',
+        'https://img10.360buyimg.com/imgzone/jfs/t1/134899/28/15541/193785/5faa2bedE5e349973/3c85a096f61586c9.jpg',
+        'https://img10.360buyimg.com/imgzone/jfs/t1/149026/25/13870/347734/5faa2beeEc9a079f7/f07efb9dcc8f670f.jpg',
+        'https://img10.360buyimg.com/imgzone/jfs/t1/135987/2/15416/196634/5faa2beeE2731f602/ee64dbcdf97afd01.jpg',
+        'https://img10.360buyimg.com/imgzone/jfs/t1/137070/38/15414/141877/5faa2beeE9eceaf49/b6af96591c5bb2d5.jpg',
+        'https://img10.360buyimg.com/imgzone/jfs/t1/135957/5/18396/403309/5fc9a42aE67621879/b08da2b13a652ade.jpg',
+      ],
+      parameters: [
+        '商品名称：一加OnePlus 8T',
+        'CPU型号：骁龙865',
+        '摄像头数量：后置四摄',
+        '分辨率：其它分辨率',
+        '后摄主摄像素：4800万像素',
+        '前摄主摄像素：1600万像素',
+        '商品产地：中国大陆',
+        '充电器：10V/6.5A',
+      ],
+    },
+  },
+];
 Mock.mock('http://localhost:8080/categorys', {
   'data|1': [['手机', '电脑', '家居', '男装', '女装', '宠物', '玩具', '图书', '理财', '教育', '电子书']],
 });
@@ -69,4 +114,12 @@ Mock.mock(domain.gallerys, {
       'url': 'https://img11.360buyimg.com/mobilecms/s300x300_jfs/t16729/91/1549483730/194168/76f0da7f/5acf2027N251bd788.jpg!q70.jpg.webp',
     },
   ],
+});
+Mock.mock(domain.product,(req) => {
+  const id = parseInt(JSON.parse(req.body).id);
+  return {
+    status: '200',
+    msg: 'success',
+    data: product[id - 1],
+  };
 });

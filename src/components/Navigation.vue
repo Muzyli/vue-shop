@@ -7,11 +7,14 @@
             <input style="border-radius: 0px" type="text"
             autocomplete="off" placeholder="请输入内容" class="el-input__inner">
           </div>
-          <el-button type="danger" style="width: 10%;border-radius:0px;border-bottom: 0px;"
+          <el-button type="danger"
+          style="width: 10%;border-radius:0px;
+          border-bottom: 0px;min-width:80px"
            icon="el-icon-search">搜索</el-button>
         </div>
       </el-col>
       <el-col :span="1" :offset="1">
+        <!-- 徽章：从本地缓存中获取 -->
         <el-badge :value="0" class="item">
           <el-button style="margin-top: 4px" size="small" type="primary">购物车</el-button>
         </el-badge>
@@ -26,9 +29,10 @@
     <el-row>
       <el-col :span="16" :offset="4" style="padding-bottom: 1%;">
         <span style="color: red">每日推荐</span>
-        <span v-for="(item, i) in recommend" :key="i">
+        <router-link to="#" style="margin-left: 5px;text-decoration:none"
+        v-for="(item, i) in recommend" :key="i">
           {{item}}
-        </span>
+        </router-link>
       </el-col>
     </el-row>
   </div>

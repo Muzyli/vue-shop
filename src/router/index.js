@@ -25,8 +25,9 @@ export default new VueRouter({
       component: Register,
     },
     {
-      path: '/product',
+      path: '/product/:id',
       name: 'product',
+      props: true,
       component: ProductDetail,
     },
   ],

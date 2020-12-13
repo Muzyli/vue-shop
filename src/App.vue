@@ -1,5 +1,5 @@
 <template>
-  <router-view></router-view>
+  <router-view v-cloak></router-view>
 </template>
 
 <script>
@@ -14,12 +14,15 @@ export default {
 </script>
 
 <style>
+[v-cloak]{
+  display: none !important;
+}
 html,body{
   background-color: #f1f1f1;
   margin: 0;
   padding: 0;
   height: 100%;
-  min-width: 900px;
+  min-width: 1000px;
 }
 a:link{
   color: #409EFF;

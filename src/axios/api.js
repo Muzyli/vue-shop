@@ -6,4 +6,5 @@ export default {
   recommend: `${domain}recommend`,
   promotionImgs: `${domain}promotionImgs`,
   gallerys: `${domain}gallerys`,
+  product: `${domain}productDetail`,
 };

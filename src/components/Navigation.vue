@@ -1,0 +1,67 @@
+<template>
+  <div class="back">
+    <el-row class="nav">
+      <el-col :span="14" :offset="4">
+        <div>
+          <div class="el-input" style="width:90%">
+            <input style="border-radius: 0px" type="text"
+            autocomplete="off" placeholder="请输入内容" class="el-input__inner">
+          </div>
+          <el-button type="danger" style="width: 10%;border-radius:0px;border-bottom: 0px;"
+           icon="el-icon-search">搜索</el-button>
+        </div>
+      </el-col>
+      <el-col :span="1" :offset="1">
+        <el-badge :value="0" class="item">
+          <el-button style="margin-top: 4px" size="small" type="primary">购物车</el-button>
+        </el-badge>
+      </el-col>
+      <el-col :span="2" :offset="1">
+        <span ref="user" style="margin-top: 5px;display:block">
+          <router-link to="login">登录/</router-link>
+          <router-link to="register">注册</router-link>
+        </span>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="16" :offset="4" style="padding-bottom: 1%;">
+        <span style="color: red">每日推荐</span>
+        <span v-for="(item, i) in recommend" :key="i">
+          {{item}}
+        </span>
+      </el-col>
+    </el-row>
+  </div>
+</template>
+<script>
+import Service from '../axios/http';
+
+export default {
+  data() {
+    return {
+      input: '',
+      recommend: [],
+      cartNumber: 0,
+    };
+  },
+  created() {
+    this.cartNumber = localStorage.getItem('cartNumber') || 0;
+    Service('recommend').then((res) => {
+      this.recommend = res.data.data;
+    });
+  },
+};
+</script>
+<style scoped>
+.back {
+  padding: auto;
+  width: 100%;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: white;
+  margin-bottom: 20px;
+}
+.nav {
+  padding-top: 1%;
+};
+</style>

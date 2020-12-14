@@ -18,5 +18,6 @@ module.exports = {
     'consistent-return': 0,
     'no-lonely-if': 0,
     'quote-props': 0,
+    'prefer-rest-params': 0,
   },
 };

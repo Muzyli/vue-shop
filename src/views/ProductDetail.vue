@@ -70,8 +70,8 @@
           </el-radio-group>
         </el-row>
         <el-row style="text-align: center;padding-top: 20px">
-          <el-button type="primary">立即购买</el-button>
-          <el-button type="danger">加入购物车</el-button>
+          <el-button type="primary" @click="buyNow">立即购买</el-button>
+          <el-button type="danger" @click="addToCart">加入购物车</el-button>
         </el-row>
       </el-col>
     </el-row>
@@ -175,6 +175,49 @@ export default {
     },
     handleSelect(index) {
       this.currentIndex = index;
+    },
+    buyNow() {
+
+    },
+    addToCart() {
+      if (this.chooseProperty.length !== this.product.property.length) {
+        alert('请选择完整参数！');
+      }
+      let i;
+      let cart = [];
+      const item = {
+        id: this.id,
+        name: this.product.name,
+        img: this.product.imgUrl,
+        property: this.chooseProperty,
+        count: 1,
+      };
+      item.price = localStorage.getItem('user') === 'admin' ? this.product.vipPrice : this.product.price;
+      const str = JSON.parse(localStorage.getItem('cart'));
+      if (str != null) {
+        cart = str;
+      }
+      for (i = 0; i < cart.length; i += 1) {
+        if (this.productSame(cart[i], item)) {
+          cart[i].count += 1;
+          break;
+        }
+      }
+      if (i >= cart.length) {
+        cart.push(item);
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+    },
+    productSame(oldItem, newItem) {
+      if (oldItem.id !== newItem.id) {
+        return false;
+      }
+      for (let i = 0; i < oldItem.property.length; i += 1) {
+        if (oldItem.property[i] !== newItem.property[i]) {
+          return false;
+        }
+      }
+      return true;
     },
   },
   created() {

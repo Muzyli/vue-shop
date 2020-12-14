@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import ProductDetail from '../views/ProductDetail.vue';
+import ShopCart from '../views/ShopCart.vue';
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,11 @@ export default new VueRouter({
       name: 'product',
       props: true,
       component: ProductDetail,
+    },
+    {
+      path: '/shopCart',
+      name: 'shopCart',
+      component: ShopCart,
     },
   ],
 });

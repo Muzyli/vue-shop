@@ -15,8 +15,9 @@
       </el-col>
       <el-col :span="1" :offset="1">
         <!-- 徽章：从本地缓存中获取 -->
-        <el-badge :value="0" class="item">
-          <el-button style="margin-top: 4px" size="small" type="primary">购物车</el-button>
+        <el-badge :value="cartNumber" class="item">
+          <el-button @click="$router.push('/shopCart')"
+          style="margin-top: 4px" size="small" type="primary">购物车</el-button>
         </el-badge>
       </el-col>
       <el-col :span="2" :offset="1">
@@ -48,10 +49,26 @@ export default {
       cartNumber: 0,
     };
   },
+  methods: {
+    handleCartClick() {
+      this.$router.push('/shopCart');
+    },
+  },
   created() {
     this.cartNumber = localStorage.getItem('cartNumber') || 0;
     Service('recommend').then((res) => {
       this.recommend = res.data.data;
+    });
+    // 初始化
+    this.cartNumber = JSON.parse(localStorage.getItem('cart')).length;
+  },
+  mounted() {
+    // 监听localStorage的set事件
+    const that = this;
+    window.addEventListener('setItemEvent', (e) => {
+      if (e.key === 'cart') {
+        that.cartNumber = JSON.parse(e.value).length;
+      }
     });
   },
 };

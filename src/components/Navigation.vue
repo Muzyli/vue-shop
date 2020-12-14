@@ -16,14 +16,14 @@
       <el-col :span="1" :offset="1">
         <!-- 徽章：从本地缓存中获取 -->
         <el-badge :value="cartNumber" class="item">
-          <el-button @click="$router.push('/shopCart')"
+          <el-button @click="handleCartClick"
           style="margin-top: 4px" size="small" type="primary">购物车</el-button>
         </el-badge>
       </el-col>
       <el-col :span="2" :offset="1">
         <span ref="user" style="margin-top: 5px;display:block">
-          <router-link to="login">登录/</router-link>
-          <router-link to="register">注册</router-link>
+          <router-link to="/login">登录/</router-link>
+          <router-link to="/register">注册</router-link>
         </span>
       </el-col>
     </el-row>

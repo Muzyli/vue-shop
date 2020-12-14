@@ -90,7 +90,7 @@ export default {
       }).then((val) => {
         if (val) {
           this.items = [];
-          localStorage.setItem('cart', []);
+          localStorage.setItem('cart', JSON.stringify([]));
           swal('提示', '已清空', 'success');
         }
       });

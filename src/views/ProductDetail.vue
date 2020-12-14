@@ -183,6 +183,14 @@ export default {
     addToCart() {
       if (this.chooseProperty.length !== this.product.property.length) {
         swal('提示', '请选择完整参数！', 'error');
+        return;
+      } else {
+        for (let i = 0; i < this.chooseProperty.length; i += 1) {
+          if (this.chooseProperty[i] == null) {
+            swal('提示', '请选择完整参数！', 'error');
+            return;
+          }
+        }
       }
       let i;
       let cart = [];

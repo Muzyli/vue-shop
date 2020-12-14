@@ -19,5 +19,6 @@ module.exports = {
     'no-lonely-if': 0,
     'quote-props': 0,
     'prefer-rest-params': 0,
+    'no-else-return': 0,
   },
 };

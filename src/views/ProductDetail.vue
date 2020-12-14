@@ -112,6 +112,7 @@
   </div>
 </template>
 <script>
+import swal from 'sweetalert';
 import Service from '../axios/http';
 import domain from '../axios/api';
 import navigation from '../components/Navigation.vue';
@@ -181,7 +182,7 @@ export default {
     },
     addToCart() {
       if (this.chooseProperty.length !== this.product.property.length) {
-        alert('请选择完整参数！');
+        swal('提示', '请选择完整参数！', 'error');
       }
       let i;
       let cart = [];
@@ -193,9 +194,9 @@ export default {
         count: 1,
       };
       item.price = localStorage.getItem('user') === 'admin' ? this.product.vipPrice : this.product.price;
-      const str = JSON.parse(localStorage.getItem('cart'));
-      if (str != null) {
-        cart = str;
+      const str = localStorage.getItem('cart');
+      if (str !== null && str !== '') {
+        cart = JSON.parse(str);
       }
       for (i = 0; i < cart.length; i += 1) {
         if (this.productSame(cart[i], item)) {
@@ -207,6 +208,7 @@ export default {
         cart.push(item);
       }
       localStorage.setItem('cart', JSON.stringify(cart));
+      swal('提示', '添加购物车成功！', 'success');
     },
     productSame(oldItem, newItem) {
       if (oldItem.id !== newItem.id) {

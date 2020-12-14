@@ -60,7 +60,10 @@ export default {
       this.recommend = res.data.data;
     });
     // 初始化
-    this.cartNumber = JSON.parse(localStorage.getItem('cart')).length;
+    const str = localStorage.getItem('cart');
+    if (str !== null && str !== '') {
+      this.cartNumber = JSON.parse(str).length;
+    }
   },
   mounted() {
     // 监听localStorage的set事件

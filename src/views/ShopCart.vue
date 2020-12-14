@@ -91,6 +91,7 @@ export default {
         if (val) {
           this.items = [];
           localStorage.setItem('cart', []);
+          swal('提示', '已清空', 'success');
         }
       });
     },
@@ -170,6 +171,10 @@ export default {
     const cart = JSON.parse(localStorage.getItem('cart'));
     if (cart !== null) {
       this.items = cart;
+    }
+    this.checkAll = true;
+    for (let i = 0; i < this.items.length; i += 1) {
+      this.checkedItems[i] = true;
     }
   },
 };

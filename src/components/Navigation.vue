@@ -1,7 +1,10 @@
 <template>
   <div class="back">
     <el-row class="nav">
-      <el-col :span="14" :offset="4">
+      <el-col :span="4" align="middle">
+        <span style="font-size:25px" @click="toHome">首页</span>
+      </el-col>
+      <el-col :span="14">
         <div>
           <div class="el-input" style="width:90%">
             <input style="border-radius: 0px" type="text"
@@ -22,8 +25,15 @@
       </el-col>
       <el-col :span="2" :offset="1">
         <span ref="user" style="margin-top: 5px;display:block">
-          <router-link to="/login">登录/</router-link>
-          <router-link to="/register">注册</router-link>
+          <div v-show="loginName == ''">
+            <router-link to="/login">登录/</router-link>
+            <router-link to="/register">注册</router-link>
+          </div>
+          <div v-show="loginName != ''" style="display:inline">
+            <span>hi,{{loginName}}</span>
+            <el-button @click="logout"
+            type="text" style="margin-left:5px">注销</el-button>
+          </div>
         </span>
       </el-col>
     </el-row>
@@ -47,9 +57,16 @@ export default {
       input: '',
       recommend: [],
       cartNumber: 0,
+      loginName: '',
     };
   },
   methods: {
+    logout() {
+      localStorage.setItem('user', '');
+    },
+    toHome() {
+      this.$router.push('/');
+    },
     handleCartClick() {
       this.$router.push('/shopCart');
     },
@@ -60,17 +77,21 @@ export default {
       this.recommend = res.data.data;
     });
     // 初始化
-    const str = localStorage.getItem('cart');
+    const str = localStorage.getItem('cart') || null;
     if (str !== null && str !== '') {
       this.cartNumber = JSON.parse(str).length;
     }
   },
   mounted() {
+    this.loginName = localStorage.getItem('user') || '';
     // 监听localStorage的set事件
     const that = this;
     window.addEventListener('setItemEvent', (e) => {
       if (e.key === 'cart') {
         that.cartNumber = JSON.parse(e.value).length;
+      }
+      if (e.key === 'user') {
+        that.loginName = e.value;
       }
     });
   },

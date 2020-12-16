@@ -24,7 +24,7 @@
               <!-- 右：内容块 el-col控制内部分隔留空，方便新增 -->
               <el-col v-show="currentIndex == -1" :span="24" ref="slide">
                 <el-carousel height="336px" type="card" indicator-position="none">
-                  <el-carousel-item v-for="item in imgs" :key="item">
+                  <el-carousel-item v-for="(item, i) in imgs" :key="i">
                     <img :src="item" />
                   </el-carousel-item>
                 </el-carousel>
@@ -43,10 +43,10 @@
       </el-row>
       <el-row>
         <el-col :span="16" :offset="4">
-          <div class="block" v-for="item in promotionImgs" :key="item">
-            <el-image
+          <div class="block" v-for="(item, i) in promotionImgs" :key="i">
+            <el-image @click="toDetail(item.id)"
               style="width: 20%; height: 170px;display:block;float:left"
-              :src="item"
+              :src="item.img"
               fit="fill"></el-image>
           </div>
         </el-col>
@@ -60,9 +60,9 @@
         </el-col>
         <el-col :span="13" style="padding-left:15px">
           <div class="gallery">
-            <div >
+            <div>
               <div :class="['gallery-sub',{'img-flip':i%2==1}]"
-              v-for="(item,i) in gallery" :key="i">
+              v-for="(item,i) in gallery" :key="i"  @click="toDetail(item.id)">
                 <span class="gallery-font">{{item.title}}</span>
                 <img style="width:10rem;height:190px"
                   :src="item.url" />
@@ -97,6 +97,9 @@ export default {
     };
   },
   methods: {
+    toDetail(id) {
+      this.$router.push(`/product/${id}`);
+    },
     hover(i) {
       this.currentIndex = i;
     },

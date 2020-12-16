@@ -56,7 +56,8 @@
         </div>
         <el-row>
           <span class="title" style="margin-top: 10px">配送至：</span>
-          <span>**************地</span>
+          <location :address="address"
+          style="display: inline"></location>
         </el-row>
         <hr />
         <!-- 属性及子属性的配置 -->
@@ -116,10 +117,12 @@ import swal from 'sweetalert';
 import Service from '../axios/http';
 import domain from '../axios/api';
 import navigation from '../components/Navigation.vue';
+import Location from '../components/Location.vue';
 
 export default {
   components: {
     navigation,
+    Location,
   },
   props: ['id'],
   data() {
@@ -140,6 +143,7 @@ export default {
       currentIndex: '0',
       chooseProperty: [],
       product: {},
+      address: [],
     };
   },
   methods: {
@@ -231,14 +235,21 @@ export default {
     },
   },
   created() {
+    const that = this;
     Service({
       url: domain.product,
       data: {
         id: this.id,
       },
     }).then((res) => {
-      this.product = res.data.data;
-      this.currentIndex = '1';
+      if (res.data.status === '200') {
+        this.product = res.data.data;
+        this.currentIndex = '1';
+      } else {
+        swal('提示', '暂时没有此商品', 'error').then(() => {
+          that.$router.go(-1);
+        });
+      }
     });
   },
 };

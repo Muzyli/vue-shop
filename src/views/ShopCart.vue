@@ -30,14 +30,16 @@
             v-model="checkedItems[index]"></el-checkbox>
           </el-col>
           <el-col :span="3">
-            <el-image style="width:80px;"
+            <el-image style="width:80px;" @click="toDetail(item.id)"
             :src="item.img" fit="fill"></el-image>
           </el-col>
           <el-col :span="8" class="info" style="color: #444;">
-            <span>{{item.name}}</span>
-            <span nowarp v-for="(p, i) in item.property" :key="i">
-              {{p}}
-            </span>
+            <div @click="toDetail(item.id)">
+              <span>{{item.name}}</span>
+              <span nowarp v-for="(p, i) in item.property" :key="i">
+                {{p}}
+              </span>
+            </div>
           </el-col>
           <el-col :span="3" class="info">
             <span>￥{{item.price}}元</span>
@@ -59,7 +61,7 @@
         <span style="margin-left: 20px;color:red" @click="clearCart">清空购物车</span>
         <div style="float:right">
           <span style="margin-right: 20px">已选择{{checkedCount}}件，共{{checkedMoney}}元</span>
-          <el-button type="danger" size="small">结算</el-button>
+          <el-button type="danger" size="small" @click="submitOrder">提交订单</el-button>
         </div>
       </el-col>
     </el-row>
@@ -80,6 +82,13 @@ export default {
     };
   },
   methods: {
+    toDetail(id) {
+      this.$router.push(`/product/${id}`);
+    },
+    submitOrder() {
+      localStorage.setItem('order', JSON.stringify(this.checkedItems));
+      this.$router.push('/order');
+    },
     clearCart() {
       swal({
         title: '提示',

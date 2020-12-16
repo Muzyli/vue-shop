@@ -25,6 +25,8 @@
   </div>
 </template>
 <script>
+import swal from 'sweetalert';
+
 export default {
   data() {
     const validatePass = (rule, value, callback) => {
@@ -67,8 +69,9 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$router.push('/');
+          localStorage.setItem('user', this.login.username);
         } else {
-          console.log('error submit!!');
+          swal('提示', '验证失败', 'error');
           return false;
         }
       });

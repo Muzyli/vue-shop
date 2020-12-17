@@ -109,11 +109,6 @@ export default {
   methods: {
     submitBill() {
       const address = JSON.parse(localStorage.getItem('address'));
-      console.log(this.areaDetail);
-      console.log(this.express);
-      for (let i = 0; i < this.items.length; i += 1) {
-        console.log(this.items[i].name);
-      }
       let addressText = '';
       let productText = '';
       for (let i = 0; i < address.length; i += 1) {
@@ -130,7 +125,13 @@ export default {
       const htmlText = `快递：${this.express}<br/>金额：${this.checkedMoney}元<br/>${productText}地址：${addressText}${this.areaDetail}`;
       const span = document.createElement('span');
       span.innerHTML = htmlText;
-      console.log(htmlText);
+      const username = localStorage.getItem('user');
+      if (username === '' || username != null) {
+        swal('提示', '请先登录再结算！', 'error').then(() => {
+          this.$router.push('/login');
+        });
+        return;
+      }
       swal({
         title: '支付成功',
         icon: 'success',
@@ -155,8 +156,6 @@ export default {
       });
     },
     getAddress(res) {
-      console.log('====');
-      console.log(res);
       this.addressText = res;
     },
   },

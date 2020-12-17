@@ -27,4 +27,8 @@ export default {
 p{
   margin: 0px;
 }
+.back{
+  width: 100%;
+  height: 100%;
+}
 </style>

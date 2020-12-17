@@ -20,6 +20,7 @@
             </el-aside>
             <el-container style="display: block;">
               <div v-show="currentIndex == i" class="hover-view"
+              @mouseover="hover(i)" @mouseout="unhover()"
               v-for="(item, i) in category" :key="i">{{item}}</div>
               <!-- 右：内容块 el-col控制内部分隔留空，方便新增 -->
               <el-col v-show="currentIndex == -1" :span="24" ref="slide">

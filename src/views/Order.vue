@@ -126,7 +126,7 @@ export default {
       const span = document.createElement('span');
       span.innerHTML = htmlText;
       const username = localStorage.getItem('user');
-      if (username === '' || username != null) {
+      if (username === '' || username === null) {
         swal('提示', '请先登录再结算！', 'error').then(() => {
           this.$router.push('/login');
         });

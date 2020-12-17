@@ -20,7 +20,9 @@ html,body{
   padding: 0;
   height: 100%;
   min-width: 1000px;
-  max-width: 1500px;
+  max-width: 1530px;
+  margin: 0 auto;
+
 }
 a:link{
   color: #409EFF;

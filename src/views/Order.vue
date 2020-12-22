@@ -91,6 +91,7 @@ import { CodeToText } from 'element-china-area-data';
 import Footer from '../components/Footer.vue';
 import Location from '../components/Location.vue';
 import Navigation from '../components/Navigation.vue';
+import cartUtil from '../utils/Cart';
 
 export default {
   components: {
@@ -122,10 +123,10 @@ export default {
         }
         productText += '<br/>';
       }
-      const htmlText = `快递：${this.express}<br/>金额：${this.checkedMoney}元<br/>${productText}地址：${addressText}${this.areaDetail}`;
+      const username = localStorage.getItem('user');
+      const htmlText = `用户：${username}<br/>快递：${this.express}<br/>金额：${this.checkedMoney}元<br/>${productText}地址：${addressText}${this.areaDetail}`;
       const span = document.createElement('span');
       span.innerHTML = htmlText;
-      const username = localStorage.getItem('user');
       if (username === '' || username === null) {
         swal('提示', '请先登录再结算！', 'error').then(() => {
           this.$router.push('/login');
@@ -139,8 +140,8 @@ export default {
         showCloseButton: true,
       }).then(() => {
         // 清除购物车里已被购买的商品,及订单
-        const order = JSON.parse(localStorage.getItem('order'));
-        const cart = JSON.parse(localStorage.getItem('cart'));
+        const order = cartUtil.getOrder();
+        const cart = cartUtil.getCart();
         for (let i = 0; i < order.length; i += 1) {
           if (order[i] === true) {
             order.splice(i, 1);
@@ -148,9 +149,9 @@ export default {
             i -= 1;
           }
         }
-        localStorage.setItem('cart', JSON.stringify(cart));
+        cartUtil.addCart(cart);
         localStorage.removeItem('address');
-        localStorage.removeItem('order');
+        cartUtil.setOrder([]);
         this.$router.go(-1);
         // end
       });
@@ -177,8 +178,8 @@ export default {
   },
   created() {
     // 检查是否有需要结算的
-    const cart = JSON.parse(localStorage.getItem('cart'));
-    const choosed = JSON.parse(localStorage.getItem('order'));
+    const cart = cartUtil.getCart();
+    const choosed = cartUtil.getOrder();
     for (let i = 0; i < cart.length; i += 1) {
       if (choosed[i] === true) {
         this.items.push(cart[i]);

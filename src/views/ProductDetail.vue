@@ -4,6 +4,12 @@
     <el-row class="interval">
       <!-- 放大镜效果---开始 -->
       <el-col :span="7" :offset="4">
+        <img ref="addCart" v-show="moved" :class="{'anim-cart': moved}" class="initial"
+          :style="{
+            'width': `${initialSize}px`,
+            'height': `${initialSize}px`}"
+          style="position: absolute;z-index:4"
+          :src="product.imgUrl" />
         <div ref="box" @mouseover="handOver" @mousemove="handMove" @mouseout="handOut">
           <img class="initial" :alt="product.name"
           :style="{
@@ -118,6 +124,7 @@ import Service from '../axios/http';
 import domain from '../axios/api';
 import navigation from '../components/Navigation.vue';
 import Location from '../components/Location.vue';
+import cartUtil from '../utils/Cart';
 
 export default {
   components: {
@@ -144,6 +151,7 @@ export default {
       chooseProperty: [],
       product: {},
       address: [],
+      moved: false,
     };
   },
   methods: {
@@ -182,7 +190,6 @@ export default {
       this.currentIndex = index;
     },
     buyNow() {
-
     },
     addToCart() {
       if (this.chooseProperty.length !== this.product.property.length) {
@@ -206,10 +213,7 @@ export default {
         count: 1,
       };
       item.price = localStorage.getItem('user') === 'admin' ? this.product.vipPrice : this.product.price;
-      const str = localStorage.getItem('cart');
-      if (str !== null && str !== '') {
-        cart = JSON.parse(str);
-      }
+      cart = cartUtil.getCart();
       for (i = 0; i < cart.length; i += 1) {
         if (this.productSame(cart[i], item)) {
           cart[i].count += 1;
@@ -219,8 +223,8 @@ export default {
       if (i >= cart.length) {
         cart.push(item);
       }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      swal('提示', '添加购物车成功！', 'success');
+      cartUtil.addCart(cart);
+      this.moved = true;
     },
     productSame(oldItem, newItem) {
       if (oldItem.id !== newItem.id) {
@@ -250,6 +254,12 @@ export default {
           that.$router.go(-1);
         });
       }
+    });
+  },
+  mounted() {
+    this.$refs.addCart.addEventListener('animationend', () => {
+      this.moved = false;
+      swal('提示', '添加购物车成功！', 'success');
     });
   },
 };
@@ -290,4 +300,17 @@ export default {
   margin-bottom: 40px;
   z-index: 2;
 }
+.anim-cart {
+    animation-duration: 500ms;
+    animation-name: addInCart;
+    animation-timing-function: ease-in-out;
+  }
+@keyframes addInCart {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: translateX(760px) translateY(-270px) scale(0.01);
+    }
+  }
 </style>

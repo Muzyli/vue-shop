@@ -19,7 +19,7 @@ html,body{
   margin: 0;
   padding: 0;
   height: 100%;
-  min-width: 1000px;
+  min-width: 1530px;
   max-width: 1530px;
   margin: 0 auto;
 

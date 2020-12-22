@@ -52,6 +52,7 @@
 </template>
 <script>
 import Service from '../axios/http';
+import cartUtil from '../utils/Cart';
 
 export default {
   data() {
@@ -65,6 +66,7 @@ export default {
   methods: {
     logout() {
       localStorage.setItem('user', '');
+      this.$router.push('/');
     },
     toHome() {
       this.$router.push('/');
@@ -74,22 +76,19 @@ export default {
     },
   },
   created() {
-    this.cartNumber = localStorage.getItem('cartNumber') || 0;
     Service('recommend').then((res) => {
       this.recommend = res.data.data;
     });
     // 初始化
-    const str = localStorage.getItem('cart') || null;
-    if (str !== null && str !== '') {
-      this.cartNumber = JSON.parse(str).length;
-    }
+    this.cartNumber = cartUtil.getCart().length;
   },
   mounted() {
     this.loginName = localStorage.getItem('user') || '';
     // 监听localStorage的set事件
     const that = this;
     window.addEventListener('setItemEvent', (e) => {
-      if (e.key === 'cart') {
+      const username = localStorage.getItem('user');
+      if (e.key === `cart${username}`) {
         that.cartNumber = JSON.parse(e.value).length;
       }
       if (e.key === 'user') {

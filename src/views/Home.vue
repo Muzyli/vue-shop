@@ -46,7 +46,7 @@
         <el-col :span="16" :offset="4">
           <div class="block" v-for="(item, i) in promotionImgs" :key="i">
             <el-image @click="toDetail(item.id)"
-              style="width: 20%; height: 170px;display:block;float:left"
+              style="width: 20%; height: 220px;display:block;float:left"
               :src="item.img"
               fit="fill"></el-image>
           </div>
@@ -62,7 +62,7 @@
         <el-col :span="13" style="padding-left:15px">
           <div class="gallery">
             <div>
-              <div :class="['gallery-sub',{'img-flip':i%2==1}]"
+              <div :class="['gallery-sub',{'img-flip':i%2==1}]" style="padding-left:2px"
               v-for="(item,i) in gallery" :key="i"  @click="toDetail(item.id)">
                 <span class="gallery-font">{{item.title}}</span>
                 <img style="width:10rem;height:190px"
@@ -117,10 +117,10 @@ export default {
       this.imgs = res.data.data;
     });
     Service(domain.promotionImgs).then((res) => {
-      this.promotionImgs = res.data.data;
+      this.promotionImgs = res.data;
     });
     Service(domain.gallerys).then((res) => {
-      this.gallery = res.data.data;
+      this.gallery = res.data;
     });
   },
 };

@@ -70,6 +70,7 @@
 <script>
 import swal from 'sweetalert';
 import Navigation from '../components/Navigation.vue';
+import cartUtil from '../utils/Cart';
 
 export default {
   components: { Navigation },
@@ -86,7 +87,11 @@ export default {
       this.$router.push(`/product/${id}`);
     },
     submitOrder() {
-      localStorage.setItem('order', JSON.stringify(this.checkedItems));
+      cartUtil.setOrder(this.checkedItems);
+      if (cartUtil.getCart().length === 0) {
+        swal('提示', '购物车中暂无商品', 'error');
+        return;
+      }
       this.$router.push('/order');
     },
     clearCart() {
@@ -99,7 +104,7 @@ export default {
       }).then((val) => {
         if (val) {
           this.items = [];
-          localStorage.setItem('cart', JSON.stringify([]));
+          cartUtil.addCart([]);
           swal('提示', '已清空', 'success');
         }
       });
@@ -116,23 +121,23 @@ export default {
         })
           .then((willDelete) => {
             if (willDelete) {
-              const cart = JSON.parse(localStorage.getItem('cart'));
+              const cart = cartUtil.getCart();
               cart.splice(index, 1);
-              localStorage.setItem('cart', JSON.stringify(cart));
+              cartUtil.addCart(cart);
               this.items = cart;
               swal('您失去了一件商品', {
                 icon: 'success',
               });
             } else {
               swal('您保住了您的商品').then(() => {
-                that.items = JSON.parse(localStorage.getItem('cart'));
+                that.items = cartUtil.getCart();
               });
             }
           });
       } else {
-        const cart = JSON.parse(localStorage.getItem('cart'));
+        const cart = cartUtil.getCart();
         cart[index].count = value;
-        localStorage.setItem('cart', JSON.stringify(cart));
+        cartUtil.addCart(cart);
       }
     },
     handleCheckedItemsChange() {
@@ -177,7 +182,7 @@ export default {
     },
   },
   created() {
-    const cart = JSON.parse(localStorage.getItem('cart'));
+    const cart = cartUtil.getCart();
     if (cart !== null) {
       this.items = cart;
     }

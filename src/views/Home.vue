@@ -62,7 +62,7 @@
         <el-col :span="13" style="padding-left:15px">
           <div class="gallery">
             <div>
-              <div :class="['gallery-sub',{'img-flip':i%2==1}]" style="padding-left:2px"
+              <div :class="['gallery-sub',{'img-flip':i%2==1}]" style="padding-left:1px"
               v-for="(item,i) in gallery" :key="i"  @click="toDetail(item.id)">
                 <span class="gallery-font">{{item.title}}</span>
                 <img style="width:10rem;height:190px"

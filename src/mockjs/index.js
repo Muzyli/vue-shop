@@ -380,7 +380,7 @@ const product = [
     },
   },
 ];
-Mock.mock('http://localhost:8080/categorys', {
+Mock.mock(domain.categorys, {
   'data|1': [['手机', '电脑', '家居', '男装', '女装', '宠物', '玩具', '图书', '理财', '教育', '电子书']],
 });
 Mock.mock(domain.slidImgs, {
@@ -420,7 +420,7 @@ Mock.mock(domain.gallerys, () => {
   } 
   return data;
 });
-Mock.mock(domain.product,(req) => {
+Mock.mock(domain.product, (req) => {
   const id = parseInt(JSON.parse(req.body).id);
   for (let i = 0; i < product.length; i++) {
     const element = product[i];
@@ -436,4 +436,25 @@ Mock.mock(domain.product,(req) => {
     status: '500',
     msg: 'fail',
   }
+});
+Mock.mock(domain.search, (req) => {
+  const name = JSON.parse(req.body).name;
+  let data = [];
+  for (let i = 0; i < product.length; i++) {
+    const element = product[i];
+    if (element.name.indexOf(name) !== -1) {
+      data.push({
+        id: element.productId,
+        name: element.name,
+        price: element.price,
+        vipPrice: element.vipPrice,
+        imgUrl: element.imgUrl,
+      });
+    }
+  }
+  return {
+    status: '200',
+    msg: 'success',
+    data: data,
+  };
 });

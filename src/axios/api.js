@@ -7,4 +7,5 @@ export default {
   promotionImgs: `${domain}promotionImgs`,
   gallerys: `${domain}gallerys`,
   product: `${domain}productDetail`,
+  search: `${domain}search`,
 };

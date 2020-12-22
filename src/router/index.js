@@ -7,6 +7,7 @@ import ProductDetail from '../views/ProductDetail.vue';
 import ShopCart from '../views/ShopCart.vue';
 import Order from '../views/Order.vue';
 import Location from '../components/Location.vue';
+import ProductList from '../views/ProductList.vue';
 
 Vue.use(VueRouter);
 
@@ -53,6 +54,12 @@ export default new VueRouter({
       path: '/location',
       name: 'location',
       component: Location,
+    },
+    {
+      path: '/productList/:name',
+      name: 'productList',
+      props: true,
+      component: ProductList,
     },
   ],
 });

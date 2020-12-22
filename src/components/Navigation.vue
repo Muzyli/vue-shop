@@ -9,13 +9,13 @@
       <el-col :span="14">
         <div>
           <div class="el-input" style="width:90%">
-            <input style="border-radius: 0px" type="text"
+            <input style="border-radius: 0px" type="text" v-model="input" @keyup.enter="search"
             autocomplete="off" placeholder="请输入内容" class="el-input__inner">
           </div>
           <el-button type="danger"
           style="width: 10%;border-radius:0px;
           border-bottom: 0px;min-width:80px"
-           icon="el-icon-search">搜索</el-button>
+           icon="el-icon-search" @click="search">搜索</el-button>
         </div>
       </el-col>
       <el-col :span="1" :offset="1">
@@ -55,6 +55,7 @@ import Service from '../axios/http';
 import cartUtil from '../utils/Cart';
 
 export default {
+  props: ['name'],
   data() {
     return {
       input: '',
@@ -64,6 +65,10 @@ export default {
     };
   },
   methods: {
+    search() {
+      this.$router.push(`/productList/${this.input}`);
+      this.$emit('update');
+    },
     logout() {
       localStorage.setItem('user', '');
       this.$router.push('/');
@@ -81,6 +86,7 @@ export default {
     });
     // 初始化
     this.cartNumber = cartUtil.getCart().length;
+    this.input = this.name;
   },
   mounted() {
     this.loginName = localStorage.getItem('user') || '';

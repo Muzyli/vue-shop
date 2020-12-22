@@ -19,8 +19,8 @@ html,body{
   margin: 0;
   padding: 0;
   height: 100%;
-  min-width: 1530px;
-  max-width: 1530px;
+  min-width: 1520px;
+  max-width: 1520px;
   margin: 0 auto;
 
 }

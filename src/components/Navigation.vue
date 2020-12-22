@@ -66,6 +66,9 @@ export default {
   },
   methods: {
     search() {
+      if (this.input == null) {
+        return;
+      }
       this.$router.push(`/productList/${this.input}`);
       this.$emit('update');
     },

@@ -16,6 +16,12 @@ export default {
 </script>
 <style scoped>
 .footer{
+}
+p{
+  margin: 0px;
+}
+.back{
+  height: 100%;
   background-color: rgb(188,91,71);
   margin: 10px;
   display: block;
@@ -23,12 +29,5 @@ export default {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   padding: 10px 20px;
-}
-p{
-  margin: 0px;
-}
-.back{
-  width: 100%;
-  height: 100%;
 }
 </style>
